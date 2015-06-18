@@ -16,33 +16,38 @@
   </div>
   
   <div class="container">
-    <h2>Guess a number, 1-100</h2>
+    <h1>Guess a number, 1-100</h1>
+    <h3>Good luck... you'll need it</h3>
     
     
     <form action="#">
       <div class="form-group">
-        <span>Your stupid guess:</span>
-        <input class="formcontrol" type="number" placeholder="1 ≥ x ≤ 100">
+        <label for="guess">Your stupid guess</label>
+        <input type="number" class="form-control" id="guess" placeholder="1 ≥ x ≤ 100">
       </div>
       <div class="form-group">
-        <input class="formcontrol btn btn-default" type="submit" value="Submit your silly guess">
+        <input class="formcontrol btn btn-sm btn-warning" type="submit" value="Submit your silly guess">
       </div>
-      <div class="form-group not-within-50">
-        <ol>
-          <li>Not bad for a flesh plank.</li>
-          <li>Try again with more trying.</li>
-          <li>Nice try, meat mind.</li>
-        </ol>
-      </div>
-      <div class="form-group not-within-20">
-        <ol>
-          <li>Maybe keep your day job.</li>
-        </ol>
+
+      <div class="response hidden">
+        <div class="form-group not-within-50">
+          <ul>
+            <li>Not bad for a flesh plank.</li>
+            <li>Try again with more trying.</li>
+            <li>Nice try, meat mind.</li>
+          </ul>
+        </div>
+        <div class="form-group not-within-20">
+          <ul>
+            <li>Maybe keep your day job.</li>
+          </ul>
+        </div>
       </div>
     </form>
     
     
-    <a class="btn btn-lg btn-success" href="#">Good idea, you'll never win. START OVER &raquo;</a>
+    <a class="btn btn-lg btn-success" href="#">Good idea, you'll never win. <br> START OVER &raquo;</a>
+    <p class="guesses-left">Guesses left: 5</p>
   </div>
 
 
