@@ -19,7 +19,12 @@
 	       2px 2px 0 #000;
 }
 
+/**
+ * Main content
+ */
 .container {
-	width: 900px;
-	background-color: #ddd;
+	width: 400px;
+	border-radius: 5px;
+	text-align: center;
 }
+
