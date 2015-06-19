@@ -9,7 +9,7 @@ html, body {
 
 }
 
-.btn-success {
+.start-over {
 	padding: 40px;
 }
 
@@ -37,6 +37,7 @@ html, body {
 	color: #ccc;
 	background-color: #771100;
 	box-shadow: 0 0 100px 30px #ea2300;
+	margin-bottom: 50px;
 }
 
 .guesses-left {
@@ -52,6 +53,12 @@ form {
 	margin: 15px;
 }
 
+#guess {
+	text-align: center;
+	width: 110px;
+	margin: auto;
+}
+
 
 /* Media Queries
 ================================= */
@@ -63,7 +70,6 @@ form {
 		border-radius: 5px;
 		text-align: center;
 		font-size: 1em;
-		color: #aaa;
 		background-color: #771100;
 	}
 
@@ -76,7 +82,6 @@ form {
 		border-radius: 5px;
 		text-align: center;
 		font-size: 1em;
-		color: #aaa;
 		background-color: #771100;
 	}
 
@@ -84,7 +89,7 @@ form {
 		margin: 0;
 	}
 
-	.btn-success {
+	.start-over {
 		padding: 18px;
 	}
 
