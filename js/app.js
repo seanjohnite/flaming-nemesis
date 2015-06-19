@@ -1,6 +1,7 @@
 var myNumber = Math.ceil(Math.random() * 100);
 var guesses = 5;
 var firstDone = false;
+var guessList = [];
 
 var synsAwful, synsOkay, synsCompetent, synsSmart, synsPerson, type;
 
@@ -100,14 +101,25 @@ function submit() {
     else {
       ins += " Try lower."
     }
-    $('.formsep').after('<p class="response">' + ins + '</p>')
+    $('.formsep').after('<p class="response">Not ' + guess + '. ' + ins + '</p>')
   }
 
   $('.response').remove();
   $('.answer').remove();
-  guesses--;
 
   var guess = $('#guess').val();
+
+  if (!guess) {
+    $('.formsep').after('<p class="response">You didn\'t guess anything.</p>')
+    return;
+  } else if (guessList.indexOf(guess) != -1) {
+    $('.formsep').after('<p class="response">You\'ve already guessed ' + guess + '.</p>')
+    return;
+  }
+
+  guesses--;
+
+  
   var diff = guess - myNumber;
 
   $('#guess').val("");
@@ -119,7 +131,7 @@ function submit() {
   } else if (guesses < 1) {
     $('.submit-button').addClass('disabled');
     $('.response').remove();
-    $('.formsep').after('<p class="response">Too bad. You lose.</p>')
+    $('.formsep').after('<p class="response">Too bad. You lose. Correct number was ' + myNumber + '</p>')
   } else if (Math.abs(diff) < 20) {
     insult(5);
   } else if (Math.abs(diff) < 20) {
@@ -130,33 +142,48 @@ function submit() {
     insult(100);
   }
 
+  guessList.push()
+
   $('.guess-display').text(guesses);
+  $('#guess').focus();5
 
   //$('.formsep').after('<p class="answer">My number was ' + myNumber + '</p>');
   //$('.formsep').after('<p class="answer">Your guess was ' + guess + '</p>');
 }
 
-$(document).ready(function() {
-  if (!firstDone) {
-    $('#person').focus();
-  }
-  else {
-    $('#guess').focus();
-  }
-
-  $('.first-button').on('click', function() {
+function firstTask() {
+  if ($('#person').val())
     type = $('#person').val();
-    firstDone = true;
-    $('.query').addClass('hidden');
-    $('.main').removeClass('hidden')
+  else
+    type = "human";
+  firstDone = true;
+  $('.query').addClass('hidden');
+  $('.main').removeClass('hidden');
+  $('#guess').focus();
+}
+
+$(document).ready(function() {
+  
+
+  $('#person').focus();
+
+  
+
+
+  $('.first-button').on('click', firstTask);
+
+  $("#person").keyup(function (e) {
+    if (e.keyCode == 13) {
+      firstTask();
+    }
   });
 
   $('.submit-button').on('click', submit);
 
   $("#guess").keyup(function (e) {
-      if (e.keyCode == 13) {
-        submit();
-      }
+    if (e.keyCode == 13) {
+      submit();
+    }
   });
 
   $('.start-over').on('click', function() {
