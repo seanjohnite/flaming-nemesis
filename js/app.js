@@ -31,33 +31,38 @@ var queries = {
 }
 
 function phrase(word) {
-    if (word in queries) {
-      synsAdjs = queries.type;
-    } else {
-      synsAdjs = getSynAdjs(type);
-    }
-    if (type in queries) {
-      synsPerson = queries.type;
-    } else {
-      synsPerson = getSynNouns(type);
-    }
-    var adj = randomItem(synsAdjs);
-    var aOrAn = getAorAn(adj);
-    return 'You are ' + aOrAn + adj + ' ' + randomItem(synsPerson) + '.';
+  if (word in queries) {
+    synsAdjs = queries[type];
+  } else {
+    synsAdjs = getSynAdjs(type);
+  }
+  if (type in queries) {
+    synsPerson = queries[type];
+  } else {
+    synsPerson = getSynNouns(type);
+  }
+  console.log(type);
+  console.log(queries);
+  console.log(queries.type);
+  console.log(getSynAdjs(type));
+  var adj = randomItem(synsAdjs);
+  var aOrAn = getAorAn(adj);
+  debugger;
+  return 'You are ' + aOrAn + adj + ' ' + randomItem(synsPerson) + '.';
 }
 
 
 var insults = {
   '100': function() {
     return phrase('stupid');
-  }
-  '100': function() {
+  },
+  '50': function() {
     return phrase('average');
-  }
-  '100': function() {
+  },
+  '20': function() {
     return phrase('competent');
-  }
-  '100': function() {
+  },
+  '5': function() {
     return phrase('intelligent');
   }
 }
