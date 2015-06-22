@@ -44,7 +44,6 @@ function phrase(word) {
   console.log(type);
   console.log(queries);
   console.log(queries.type);
-  console.log(getSynAdjs(type));
   var adj = randomItem(synsAdjs);
   var aOrAn = getAorAn(adj);
   debugger;
