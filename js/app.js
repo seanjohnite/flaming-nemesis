@@ -41,7 +41,7 @@ var insults = {
   },
   '5': function() {
     if (!synsSmart) {
-      synsSmart = getSynAdjs('intelligent');
+      synsSmart = getSynAdjs('lucky');
     }
     if (!synsPerson) {
       synsPerson = getSynNouns(type);
@@ -108,6 +108,7 @@ function submit() {
   $('.answer').remove();
 
   var guess = $('#guess').val();
+  $('.formsep').after('<p>Your entry was ' + guess + '</p>');
 
   if (!guess) {
     $('.formsep').after('<p class="response">You didn\'t guess anything.</p>')
