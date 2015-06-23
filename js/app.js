@@ -50,14 +50,14 @@ function phrase(word) {
 var insults = {
   '100': function() {
     return phrase('stupid');
-  }
-  '100': function() {
+  },
+  '50': function() {
     return phrase('average');
-  }
-  '100': function() {
+  },
+  '20': function() {
     return phrase('competent');
-  }
-  '100': function() {
+  },
+  '5': function() {
     return phrase('intelligent');
   }
 }
