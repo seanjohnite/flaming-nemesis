@@ -7,12 +7,12 @@ var synsAwful, synsOkay, synsCompetent, synsSmart, synsPerson, type;
 
 var queries = {
   person: ["individual","someone","somebody","mortal","soul","anatomy",
-  "being","bod","build","causal agency","causal agent","cause",
-  "chassis","figure","flesh","form","frame","grammatical category",
-  "human body","material body","organism","physical body","physique",
-  "shape","soma","syntactic category"],
-  human: ["homo","man","human being","hominid","anthropoid"],
-  stupid: ["dazed","stunned","stupefied","unintelligent","stupid","unintelligent",
+  "being","bod","causal agent",
+  "chassis","figure","flesh","form","frame",
+  "human","organism","physical body",
+  "shape"],
+  human: ["person", "man","human being","hominid","anthropoid"],
+  stupid: ["dazed","stunned","stupefied","stupid","unintelligent",
   "retarded","anserine","blockheaded","boneheaded","brainless","cloddish","confused",
   "dense","dim","doltish","dopey","dopy","dull","dumb","fatheaded","feebleminded",
   "foolish","gaumless","gooselike","goosey","goosy","gormless","half-witted",
@@ -22,43 +22,48 @@ var queries = {
   average: ["ordinary","fair","mediocre","middling","intermediate","medium","mean",
   "median","modal","ordinary","common","moderate","normal"],
   competent: ["capable","efficient","qualified","able","adequate",
-  "capable","effective"],
-  intelligent: ["well-informed","healthy","levelheaded","level-headed",
-  "sound","reasoning","thinking","precocious","smart","agile","alert","apt",
-  "born","brainy","bright","brilliant","clever","innate","natural","nimble",
+  "effective"],
+  intelligent: ["well-informed","healthy",
+  "sound","reasoning","thinking","precocious","smart","agile","alert",
+  "born","brainy","bright","brilliant","clever","innate","nimble",
   "prehensile","quick","rational","ready","reasonable","scintillating","searching",
-  "sensible","smart","smart as a whip","sophisticated","trenchant"]
+  "sensible","smart","sophisticated"]
 }
 
-function phrase(word) {
-    if (word in queries) {
-      synsAdjs = queries.type;
-    } else {
-      synsAdjs = getSynAdjs(type);
-    }
-    if (type in queries) {
-      synsPerson = queries.type;
-    } else {
-      synsPerson = getSynNouns(type);
-    }
-    var adj = randomItem(synsAdjs);
-    var aOrAn = getAorAn(adj);
-    return 'You are ' + aOrAn + adj + ' ' + randomItem(synsPerson) + '.';
+function phrase(word, phraseType) {
+  if (word in queries) {
+    synsAdjs = queries[word];
+  } else {
+    synsAdjs = getSynAdjs(type);
+  }
+  if (type in queries) {
+    synsPerson = queries[type];
+  } else {
+    synsPerson = getSynNouns(type);
+  }
+  var adj = randomItem(synsAdjs);
+  var noun = randomItem(synsPerson);
+  return phraseType(adj, noun);
+}
+
+function standardPhrase(adj, noun) {
+  var aOrAn = getAorAn(adj);
+  return 'You are ' + aOrAn + adj + ' ' + randomItem(synsPerson) + '.';
 }
 
 
 var insults = {
   '100': function() {
-    return phrase('stupid');
+    return phrase('stupid', standardPhrase);
   },
   '50': function() {
-    return phrase('average');
+    return phrase('average', standardPhrase);
   },
   '20': function() {
-    return phrase('competent');
+    return phrase('competent', standardPhrase);
   },
   '5': function() {
-    return phrase('intelligent');
+    return phrase('intelligent', standardPhrase);
   }
 }
 
@@ -153,10 +158,10 @@ function submit() {
     insult(100);
   }
 
-  guessList.push(guess)
+  guessList.push()
 
   $('.guess-display').text(guesses);
-  $('#guess').focus();
+  $('#guess').focus();5
 
   //$('.formsep').after('<p class="answer">My number was ' + myNumber + '</p>');
   //$('.formsep').after('<p class="answer">Your guess was ' + guess + '</p>');
@@ -203,8 +208,6 @@ $(document).ready(function() {
 
 
 });
-
-
 
 
 
