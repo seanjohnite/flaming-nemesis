@@ -5,51 +5,61 @@ var guessList = [];
 
 var synsAwful, synsOkay, synsCompetent, synsSmart, synsPerson, type;
 
+var queries = {
+  person: ["individual","someone","somebody","mortal","soul","anatomy",
+  "being","bod","build","causal agency","causal agent","cause",
+  "chassis","figure","flesh","form","frame","grammatical category",
+  "human body","material body","organism","physical body","physique",
+  "shape","soma","syntactic category"],
+  human: ["homo","man","human being","hominid","anthropoid"],
+  stupid: ["dazed","stunned","stupefied","unintelligent","stupid","unintelligent",
+  "retarded","anserine","blockheaded","boneheaded","brainless","cloddish","confused",
+  "dense","dim","doltish","dopey","dopy","dull","dumb","fatheaded","feebleminded",
+  "foolish","gaumless","gooselike","goosey","goosy","gormless","half-witted",
+  "headless","idiotic","imbecile","imbecilic","jerky","loggerheaded","lumpen",
+  "lumpish","moronic","nitwitted","obtuse","senseless","slow","slow-witted",
+  "soft-witted","thick","thick-skulled","thickheaded","unthinking","weak","witless"],
+  average: ["ordinary","fair","mediocre","middling","intermediate","medium","mean",
+  "median","modal","ordinary","common","moderate","normal"],
+  competent: ["capable","efficient","qualified","able","adequate",
+  "capable","effective"],
+  intelligent: ["well-informed","healthy","levelheaded","level-headed",
+  "sound","reasoning","thinking","precocious","smart","agile","alert","apt",
+  "born","brainy","bright","brilliant","clever","innate","natural","nimble",
+  "prehensile","quick","rational","ready","reasonable","scintillating","searching",
+  "sensible","smart","smart as a whip","sophisticated","trenchant"]
+}
+
+function phrase(word) {
+    if (word in queries) {
+      synsAdjs = queries.type;
+    } else {
+      synsAdjs = getSynAdjs(type);
+    }
+    if (type in queries) {
+      synsPerson = queries.type;
+    } else {
+      synsPerson = getSynNouns(type);
+    }
+    var adj = randomItem(synsAdjs);
+    var aOrAn = getAorAn(adj);
+    return 'You are ' + aOrAn + adj + ' ' + randomItem(synsPerson) + '.';
+}
+
+
 var insults = {
   '100': function() {
-    if (!synsAwful) {
-      synsAwful = getSynAdjs('stupid');
-    }
-    if (!synsPerson) {
-      synsPerson = getSynNouns(type);
-    }
-    var adj = randomItem(synsAwful);
-    var aOrAn = getAorAn(adj);
-    return 'You are ' + aOrAn + adj + ' ' + randomItem(synsPerson) + '.';
-  },
-  '50': function() {
-    if (!synsOkay) {
-      synsOkay = getSynAdjs('average');
-    }
-    if (!synsPerson) {
-      synsPerson = getSynNouns(type);
-    }
-    var adj = randomItem(synsOkay);
-    var aOrAn = getAorAn(adj);
-    return 'You are ' + aOrAn + adj + ' ' + randomItem(synsPerson) + '.';
-  },
-  '20': function() {
-    if (!synsCompetent) {
-      synsCompetent = getSynAdjs('competent');
-    }
-    if (!synsPerson) {
-      synsPerson = getSynNouns(type);
-    }
-    var adj = randomItem(synsCompetent);
-    var aOrAn = getAorAn(adj);
-    return 'You are ' + aOrAn + adj + ' ' + randomItem(synsPerson) + '.';
-  },
-  '5': function() {
-    if (!synsSmart) {
-      synsSmart = getSynAdjs('intelligent');
-    }
-    if (!synsPerson) {
-      synsPerson = getSynNouns(type);
-    }
-    var adj = randomItem(synsSmart);
-    var aOrAn = getAorAn(adj);
-    return 'You are ' + aOrAn + adj + ' ' + randomItem(synsPerson) + '.';
-  },
+    return phrase('stupid');
+  }
+  '100': function() {
+    return phrase('average');
+  }
+  '100': function() {
+    return phrase('competent');
+  }
+  '100': function() {
+    return phrase('intelligent');
+  }
 }
 
 function getAorAn(string) {
@@ -72,7 +82,8 @@ function httpGet(theUrl) {
 }
 
 function getSynonyms(word) {
-  var url = 'http://words.bighugelabs.com/api/2/777c02c907809fb4a79cfb3f62b1ab3c/' + word +'/json';
+  var url = 'http://words.bighugelabs.com/api/2/777c02c907809fb4a79cfb3f62b1ab3c/' + 
+    word +'/json';
   var jsonObj = JSON.parse(httpGet(url));
   return jsonObj;
 }
@@ -155,7 +166,7 @@ function firstTask() {
   if ($('#person').val())
     type = $('#person').val();
   else
-    type = "human";
+    type = "person";
   firstDone = true;
   $('.query').addClass('hidden');
   $('.main').removeClass('hidden');
