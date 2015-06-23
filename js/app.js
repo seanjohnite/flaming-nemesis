@@ -34,7 +34,7 @@ function phrase(word, phraseType) {
   if (word in queries) {
     synsAdjs = queries[word];
   } else {
-    synsAdjs = getSynAdjs(type);
+    synsAdjs = getSynAdjs(word);
   }
   if (type in queries) {
     synsPerson = queries[type];
