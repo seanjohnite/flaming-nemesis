@@ -146,7 +146,7 @@ function submit() {
   guessList.push()
 
   $('.guess-display').text(guesses);
-  $('#guess').focus();5
+  $('#guess').focus();
 
   //$('.formsep').after('<p class="answer">My number was ' + myNumber + '</p>');
   //$('.formsep').after('<p class="answer">Your guess was ' + guess + '</p>');
