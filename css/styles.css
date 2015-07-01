@@ -25,11 +25,13 @@ html, body {
 	color: #2a2a2a;
 }
 
+
+
 /**
  * Layout
  */
 
-.container {
+.section {
 	width: 500px;
 	border-radius: 5px;
 	text-align: center;
@@ -46,7 +48,12 @@ html, body {
 }
 
 .response {
-	font-size: 1.4em;
+	font-size: 1.2em;
+	margin-bottom: 10px;
+}
+
+.response p {
+	margin: 5px 0;
 }
 
 form {
@@ -57,6 +64,44 @@ form {
 	text-align: center;
 	width: 110px;
 	margin: auto;
+}
+
+.give-up {
+	margin-bottom: 15px;
+}
+
+.hot-guesses {
+	padding-bottom: 5px;
+	background-color: rgb(236, 93, 13);
+	border-top-left-radius: 5px;
+	border-bottom-left-radius: 5px;
+	height: 65px;
+}
+
+.cold-guesses {
+	padding-bottom: 5px;
+	background-color: rgb(24, 123, 210);
+	border-top-right-radius: 5px;
+	border-bottom-right-radius: 5px;
+	height: 65px;
+
+}
+
+.guess-list {
+	list-style: none;
+	margin-bottom: 15px;
+}
+
+.guess-list li {
+	display: inline;
+}
+
+.guess-list li:after {
+	content: ", ";
+}
+
+.guess-list li:last-child:after {
+	content: "";
 }
 
 
@@ -83,6 +128,10 @@ form {
 		text-align: center;
 		font-size: 1em;
 		background-color: #771100;
+	}
+
+	.response {
+		font-size: 1em;
 	}
 
 	form {
