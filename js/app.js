@@ -9,7 +9,7 @@ var type;
 var queries = {
   person: ["individual","someone","somebody","mortal","soul","anatomy",
   "being","bod","causal agent",
-  "chassis","figure","flesh","form","frame",
+  "chassis","figure","flesh","form",
   "human","organism","physical body",
   "shape"],
   human: ["person", "man","human being","hominid","anthropoid"],
@@ -49,7 +49,7 @@ function phrase(word, phraseType) {
 
 function standardPhrase(adj, noun) {
   var aOrAn = getAorAn(adj);
-  return 'You are ' + aOrAn + adj + ' ' + randomItem(synsPerson) + '. ';
+  return 'You are ' + aOrAn + adj + ' ' + noun + '. ';
 }
 
 function iceColdPhrase(adj, noun) {
@@ -73,6 +73,17 @@ var insults = {
   }
 }
 
+function insult(degree, diff, guess) {
+  var ins = insults[degree]();
+  if (diff < 0) {
+    ins += '<p>Try higher.</p>';
+  }
+  else {
+    ins += '<p>Try lower.</p>';
+  }
+  $('.response').append('<p>Not ' + guess + '. ' + ins + '</p>');
+}
+
 function getAorAn(string) {
   if (string[0].match(/[aeiou]/)) {
     return "an ";
@@ -85,51 +96,32 @@ function randomItem(array) {
   return array[Math.floor(Math.random() * array.length)];
 }
 
-function httpGet(theUrl) {
-  var xmlHttp = new XMLHttpRequest();
-  xmlHttp.open( "GET", theUrl, false );
-  xmlHttp.send( null );
-  return xmlHttp.responseText;
-}
-
-function getSynonyms(word) {
-  var url = 'http://words.bighugelabs.com/api/2/777c02c907809fb4a79cfb3f62b1ab3c/' + 
-    word +'/json';
-  var jsonObj = httpGet(url);
-  return jsonObj;
-}
-
-function getSynAdjs(word) {
-  return getSynonyms(word).adjective.syn;
-}
-
-function getSynNouns(word) {
-  return getSynonyms(word).noun.syn;
-}
-
 function win() {
   $('.jumbotron>h1').text('The Flaming Nemesis has been extinguished');
   $('html, body').css('background-color', '#3399cc');
   $('.container').css('box-shadow', 'none');
+  $('.jumbotron>h1').css('font-size', '2em');
   $('.container').css('background-color', '#003366');
+  $('.section').addClass('tada').addClass('animated')
+}
+
+function lose(diff, guess) {
+  if (Math.abs(diff) < 20)
+    showGuess('hot', guess);
+  else
+    showGuess('cold', guess);
+  $('.submit-button').addClass('disabled');
+  $('.response').html('');
+  $('.response').append('<p>Too bad. You lose. Correct number was ' + myNumber + '.</p>')
+  $("#guess").off('.guess');
 }
 
 function submit() {
-  function insult(degree) {
-    var ins = insults[degree]();
-    if (diff < 0) {
-      ins += '<p>Try higher.</p>';
-    }
-    else {
-      ins += '<p>Try lower.</p>';
-    }
-    $('.response').append('<p>Not ' + guess + '. ' + ins + '</p>');
-  }
-
+  // get guess and clear old responses
+  var guess = $('#guess').val();
   $('.response').html('');
 
-  var guess = $('#guess').val();
-
+  // make sure guess is good/reasonable -- if not, respond accordingly.
   if (!guess) {
     $('.response').append('<p>You didn\'t guess anything.</p>')
     return;
@@ -144,51 +136,44 @@ function submit() {
     $('.response').append('<p>Right. I\'m gonna pretend you didn\'t guess out of the range.</p>')
     return;
   }
-
+  // decrement number of guesses
   guesses--;
 
-  
+  // figure out how to respond based on guess/number difference, respond
   var diff = guess - myNumber;
-
-  $('#guess').val("");
-
   if (guess == myNumber) {
     $('.response').append('<p>You got it! ' + guess + '!</p>');
     win();
     $('.submit-button').addClass('disabled');
     $("#guess").off('.guess');
+    showGuess('hot', guess);
   } else if (guesses < 1) {
-    $('.submit-button').addClass('disabled');
-    $('.response').html('');
-    $('.response').append('<p class="response">Too bad. You lose. Correct number was ' + myNumber + '.</p>')
-    $("#guess").off('.guess');
+    lose(diff, guess);
   } else if (Math.abs(diff) < 5) {
-    insult(5);
+    insult(5, diff, guess);
     showGuess('hot', guess);
   } else if (Math.abs(diff) < 20) {
-    insult(20);
+    insult(20, diff, guess);
     showGuess('hot', guess);
     } else if (Math.abs(diff) < 50) {
-    insult(50);
+    insult(50, diff, guess);
     showGuess('cold', guess);
   } else {
-    insult(100);
+    insult(100, diff, guess);
     showGuess('cold', guess);
   }
 
+  // update guesses left, update guess list
   guessList.push(guess);
 
   $('.guess-display').text(guesses);
 
   $('#guess').val('').focus();
-
-  //$('.response').append('<p class="answer">My number was ' + myNumber + '</p>');
-  //$('.response').append('<p class="answer">Your guess was ' + guess + '</p>');
 }
 
 function showGuess(str, guess) {
   $('<li></li>').append(guess).addClass(str + '-guess').appendTo($('.' + str+ '-guesses'));
-  $('.' + str + '-guesses').removeClass('hidden');
+  $('.guess-list').removeClass('hidden');
 }
 
 function firstTask() {
@@ -203,16 +188,12 @@ function firstTask() {
         queries[type] = response.noun.syn;
       },
       error: function() {
-        $('.formsep').append('<p class="response">Sorry, I don\'t know you. I\'m assuming you\'re a person.</p>')
+        $('.formsep').append('<p>Sorry, I don\'t know you. I\'m assuming you\'re a person.</p>')
         type = 'person';
       }
     });
   } else
     type = "person";
-
-
-
-
 
   $('.query').addClass('hidden');
   $('.main').removeClass('hidden');
@@ -243,7 +224,16 @@ $(document).ready(function() {
     }
   });
 
-  $('.start-over').on('click', function() {
+  $('.give-up').on('click', function (e) {
+    e.preventDefault();
+    $('.submit-button').addClass('disabled');
+    $('.response').html('');
+    $('.response').append('<p>I was thinking of ' + myNumber + '.</p><p>You were.. not close.')
+    $("#guess").off('.guess');
+  })
+
+  $('.start-over').on('click', function (e) {
+    e.preventDefault();
     location.reload(true);
   });
 

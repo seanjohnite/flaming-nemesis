@@ -8,14 +8,15 @@
   <link rel="stylesheet" href="css/bootstrap.min.css">
   <link rel="stylesheet" href="css/bootstrap-theme.min.css">
   <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="css/animate.css">
   <title>Flaming Nemesis - Can you match up against this hot foe?</title>
 </head>
 <body>
   <div class="jumbotron">
-    <h1>The Flaming Nemesis will defeat you</h1>
+    <h1>I, the Flaming Nemesis, will defeat you</h1>
   </div>
 
-  <div class="section container query">
+  <div class="section container query animated infinite zoomIn">
     <div class="form-group">
       <label for="person">What manner of foe seeks to challenge the Nemesis?</label>
       <input type="text" class="form-control" id="person" placeholder="person">
@@ -52,7 +53,7 @@
 
     <a class="give-up btn btn-md btn-success">Yeah, you should probably give up <br> and get a hint &raquo;</a>
 
-    <div class="guess-list container-fluid">
+    <div class="guess-list container-fluid hidden">
       <div class="row">
         <div class="col-sm-offset-1 col-sm-5 hot-guesses">Hot guesses:
           <ul class="hots"></ul>

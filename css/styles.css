@@ -84,7 +84,6 @@ form {
 	border-top-right-radius: 5px;
 	border-bottom-right-radius: 5px;
 	height: 65px;
-
 }
 
 .guess-list {
@@ -118,6 +117,13 @@ form {
 		background-color: #771100;
 	}
 
+	.hot-guesses {
+		height: 50px;
+	}
+
+	.cold-guesses {
+		height: 50px;
+	}
 
 
 }
